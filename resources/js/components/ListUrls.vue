@@ -14,7 +14,6 @@
       <th scope="col">Short Url</th>
       <th scope="col">Created At</th>
       <th scope="col">Click Count</th>
-      <th scope="col">See More</th>
     </tr>
   </thead>
   <tbody>
@@ -23,7 +22,6 @@
       <td><a target="_blank" :href="`http://127.0.0.1:8000/short/get/${link.id}`">{{`http://127.0.0.1:8000/short/get/${link.id}`}}</a></td>
       <td>{{ new Date(link.created_at).getFullYear()}}/{{new Date(link.created_at).getMonth()+1}}/{{new Date(link.created_at).getDate()}} </td>
       <td>{{ link.statistics_count }}</td>
-      <td style="display: flex ;justify-content:center"><button className='vidVibeButton' >See More</button></td>
     </tr>
    
   </tbody>
