@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Link;
+use App\Models\Statistic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -43,6 +44,7 @@ class LinkController extends Controller
             ], 200);
 
         } catch (\Throwable $th) {
+            // error handling 
             return response()->json([
                 'status' => false,
                 'errors' => $th->getMessage(),
@@ -59,6 +61,11 @@ class LinkController extends Controller
     {
        $link = Link::find($id) ;
        if ($link) {
+        // make a new statistic record to the current link
+          $statistic = new Statistic ;
+          $statistic->link_id = $id ;
+          $statistic->save();
+        // redirect to the long url 
           return redirect($link->url);
        }else {
           return abort(403 , "Url doesn't exist");
