@@ -1,7 +1,7 @@
 <template>
     <div class="UrlForm">
         <h1 class="UrlFormTitle">Welcome to Our URL Shortener!</h1>
-
+        
         <div class="container">
         <h1>URL Shortener</h1>
         <form @submit.prevent="handleSubmit">

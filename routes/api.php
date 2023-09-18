@@ -22,3 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/store',[LinkController::class , 'store']);
 
 Route::get('/get/{id}',[LinkController::class , 'redirectToLongUrl']);
+
+Route::get('/links',[LinkController::class , 'index']);
+

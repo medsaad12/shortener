@@ -5,10 +5,35 @@ namespace App\Http\Controllers;
 use App\Models\Link;
 use App\Models\Statistic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class LinkController extends Controller
 {
+    /**
+     * Get all links records.
+     */
+    public function index()
+    {
+        try {
+
+            $links = Link::orderBy('created_at', 'desc')
+            ->withCount('statistics') // This adds a 'statistics_count' attribute to each link
+            ->get()
+            ->toArray(); 
+
+            return response()->json([
+                'status' => true,
+                'links' => $links,
+            ], 200);
+             
+        }catch(\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'errors' => $th->getMessage(),
+            ], 500);
+        }
+    }
 
     /**
      * Store a newly created short link in databse.
