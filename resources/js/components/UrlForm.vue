@@ -21,37 +21,37 @@
   
   <script>
   import axios from "axios"
+  import {ref } from 'vue';
 
   export default {
     name:"UrlForm",
-    data(){
-        return {
-            url : "",
-            isError : false,
-            error : "",
-            isCorrect : false,
-            shortUrl : "",
-        }
-    },
-    methods : {
-        handleSubmit(){
-            axios.post('http://127.0.0.1:8000/short/store',{
-                url : this.url
-            }).then((response)=>{
-                this.isError = false
-                this.isCorrect = true
-                this.shortUrl = `http://127.0.0.1:8000/short/get/${response.data.link.id}`
-            }).catch((err)=>{
-                this.isCorrect = false
-                this.isError = true
-                this.error =  err.response.data.errors.url[0]
-            })
-        },
-        copyShortUrl(){
-            navigator.clipboard.writeText(this.shortUrl)
-            this.isCopied = true
-        }
+    setup(){
+        const url =  ref("")
+        const isError =  ref(false)
+        const error =  ref("")
+        const isCorrect =  ref(false)
+        const shortUrl =  ref("")
+
         
+        const handleSubmit = ()=>{
+            axios.post('http://127.0.0.1:8000/short/store',{
+                url : url.value
+            }).then((response)=>{
+                isError.value = false
+                isCorrect.value = true
+                shortUrl.value = `http://127.0.0.1:8000/short/get/${response.data.link.id}`
+            }).catch((err)=>{
+                isCorrect.value = false
+                isError.value = true
+                error.value =  err.response.data.errors.url[0]
+            })
+        }
+        const copyShortUrl = ()=>{
+            navigator.clipboard.writeText(shortUrl.value)
+            isCopied.value = true
+        }
+
+        return {url , isError , error , isCorrect , shortUrl , handleSubmit , copyShortUrl}
     }
   }
   </script>

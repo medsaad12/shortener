@@ -31,35 +31,33 @@
 
 <script>
 import axios from 'axios';
+import { onMounted, ref } from 'vue';
 
 export default {
   name:"ListUrls",
-  data(){
-    return {
-      links : [],
-      defaultSorting : [] ,
-      MostVisited : []
+  setup(){
+    const links = ref([])
+
+
+    onMounted(()=>{
+      axios.get('http://127.0.0.1:8000/short/links')
+      .then((response)=>{
+        links.value = response.data.links
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    })
+
+    const defaultSort = ()=>{
+      links.value = links.value.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
     }
-  },
- 
-  methods : {
-    defaultSort(){
-      this.links = this.links.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-    },
-    MostVisitedSort(){
-      this.links = this.links.sort((a, b) => b.statistics_count - a.statistics_count);
+    const MostVisitedSort = ()=>{
+      links.value = links.value.sort((a, b) => b.statistics_count - a.statistics_count);
     }
 
-  },
-  mounted(){
-    axios.get('http://127.0.0.1:8000/short/links')
-    .then((response)=>{
-      this.links = response.data.links
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
-  }
+    return {links , defaultSort , MostVisitedSort}
+  },  
 }
 </script>
 
